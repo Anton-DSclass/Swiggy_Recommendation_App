@@ -1,5 +1,4 @@
-Below is a **clean, professional GitHub README** tailored exactly for your **Swiggy Restaurant Recommendation System (Streamlit + ML)** project.
-You can **copy–paste directly into `README.md`** ✅
+Streamlit Code
 
 ---
 
@@ -178,5 +177,228 @@ Contains:
 * Scikit-learn Documentation
 
 ---
+*****************************************************************************************************************************************************************************
+
+Main Code
+
+# 📊 Data Preprocessing, Feature Engineering & Clustering Pipeline
+
+This module focuses on **cleaning raw restaurant data**, **preparing features for machine learning**, **performing clustering**, and **saving processed datasets** for downstream use in a **recommendation system and ML models**.
+
+---
+
+## 🧩 Overview
+
+The goal of this pipeline is to:
+
+* Clean noisy real-world data
+* Remove irrelevant and redundant columns
+* Prepare numerical & encoded features
+* Apply **unsupervised clustering**
+* Store optimized datasets for **Streamlit deployment**
+
+---
+
+## 🛠️ Libraries Used
+
+| Category         | Libraries                       |
+| ---------------- | ------------------------------- |
+| Data Handling    | `pandas`, `numpy`               |
+| Visualization    | `matplotlib`, `seaborn`         |
+| Statistics       | `scipy.stats`                   |
+| Machine Learning | `scikit-learn`, `xgboost`       |
+| Models           | Linear, Tree, Boosting, SVM, GP |
+| Clustering       | `KMeans`                        |
+| Serialization    | `pickle`                        |
+
+---
+
+## 🧹 Step 1: Data Cleaning
+
+### ✔️ Remove Invalid Column Names
+
+```python
+df = df.loc[:, df.columns.notna()]
+df = df.loc[:, df.columns.str.strip() != ""]
+```
+
+* Removes **empty** or **blank** column names
+* Prevents pipeline failures
+
+---
+
+### ✔️ Remove Auto-Generated Columns
+
+```python
+df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+```
+
+* Eliminates unnecessary index columns from CSV imports
+
+---
+
+### ✔️ Remove Time-Range Columns
+
+```python
+df = df.loc[:, ~df.columns.str.contains("To|PM|Pm")]
+```
+
+* Removes time-based textual columns not useful for ML
+* Ensures numeric-only feature space
+
+---
+
+### ✔️ Drop Non-ML Columns
+
+```python
+cols_to_remove = ["name", "lic_no", "link", "address", "menu"]
+df.drop(columns=cols_to_remove, inplace=True)
+```
+
+These columns:
+
+* Are **identifiers or text-heavy**
+* Do not contribute to prediction or similarity
+
+---
+
+## 🧠 Step 2: Machine Learning Models Imported
+
+This project supports **multiple regression models** for experimentation:
+
+* Linear Regression
+* Random Forest Regressor
+* Gradient Boosting
+* AdaBoost
+* XGBoost
+* Support Vector Regression (SVR)
+* Gaussian Process Regressor
+
+📌 *Models are imported for benchmarking and performance comparison.*
+
+---
+
+## 🔧 Step 3: Feature Scaling & Pipelines
+
+* **StandardScaler** used for normalization
+* **OneHotEncoder** & **MultiLabelBinarizer** for categorical data
+* **ColumnTransformer + Pipeline** for clean ML workflows
+
+This ensures:
+
+* Consistent preprocessing
+* Reproducibility
+* No data leakage
+
+---
+
+## 🧩 Step 4: Clustering (Unsupervised Learning)
+
+### 🔹 KMeans Clustering
+
+```python
+k = 20
+kmeans = KMeans(n_clusters=k, random_state=42)
+df['cluster'] = kmeans.fit_predict(X)
+```
+
+✔️ Groups similar restaurants based on numeric features
+✔️ Helps in:
+
+* Restaurant segmentation
+* Faster recommendations
+* Exploratory analysis
+
+---
+
+### 📏 Cluster Evaluation
+
+```python
+score = silhouette_score(X, df['cluster'])
+```
+
+**Silhouette Score** measures:
+
+* How well each restaurant fits within its cluster
+* Value close to **1 → better clustering**
+
+---
+
+## 💾 Step 5: Dataset Serialization (Pickle)
+
+```python
+cleaned.to_pickle("Cleaned.pkl")
+encoded.to_pickle("Encoded.pkl")
+```
+
+### Why Pickle?
+
+* Faster loading than CSV
+* Preserves data types
+* Ideal for Streamlit apps
+
+---
+
+## 📂 Output Files
+
+| File          | Description                           |
+| ------------- | ------------------------------------- |
+| `Cleaned.pkl` | Human-readable restaurant details     |
+| `Encoded.pkl` | ML-ready numerical & encoded features |
+
+These files are later used in:
+
+* Recommendation engine
+* Similarity calculations
+* Streamlit deployment
+
+---
+
+## 🔄 Workflow Summary
+
+```
+Raw Data
+   ↓
+Data Cleaning
+   ↓
+Feature Engineering
+   ↓
+Scaling & Encoding
+   ↓
+Clustering
+   ↓
+Pickle Serialization
+   ↓
+Streamlit App
+```
+
+---
+
+## 🎯 Use Cases
+
+* Restaurant recommendation systems
+* Customer segmentation
+* ML portfolio projects
+* Final year / capstone projects
+* Interview & viva demonstrations
+
+---
+
+## 🔮 Future Enhancements
+
+* Automatic optimal `k` selection
+* Cluster visualization dashboard
+* Hybrid recommendation system
+* Model performance comparison UI
+
+---
+
+## 👨‍💻 Author
+
+**Anton Sam**
+Machine Learning | Data Science | Python
+
+
+
 
 
